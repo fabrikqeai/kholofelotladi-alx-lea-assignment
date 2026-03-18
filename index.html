@@ -20,6 +20,8 @@
             font-family: 'Plus Jakarta Sans', sans-serif;
             background-color: #fcfcfc;
             color: var(--alx-dark);
+            margin: 0;
+            padding: 0;
         }
 
         .glass-card {
@@ -36,9 +38,9 @@
 
         .timeline-step {
             position: relative;
-            padding-left: 2rem;
+            padding-left: 1.5rem;
             border-left: 2px solid #f1f5f9;
-            padding-bottom: 1.5rem;
+            padding-bottom: 1rem;
         }
 
         .timeline-step::before {
@@ -53,34 +55,43 @@
             border: 3px solid var(--alx-orange);
         }
 
+        /* Specific styles for PDF export to force single page */
+        #capture-area {
+            background: #fcfcfc;
+            padding: 40px;
+            width: 1100px; /* Target width for landscape A4/Letter scaling */
+            margin: 0 auto;
+        }
+
         @media print {
             .no-print { display: none !important; }
-            body { padding: 0; background: white; }
+            body { padding: 0; margin: 0; background: white; }
+            #capture-area { padding: 20px; width: 100%; box-shadow: none; }
             .glass-card { box-shadow: none; border: 1px solid #ddd; }
         }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-4 md:p-8">
     <!-- Download Button (Floating) -->
     <div class="fixed bottom-6 right-6 z-50 no-print">
-        <button onclick="downloadPDF()" class="alx-gradient text-white px-6 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition-transform flex items-center gap-2">
+        <button id="download-btn" onclick="downloadPDF()" class="alx-gradient text-white px-6 py-3 rounded-full font-bold shadow-xl hover:scale-105 transition-transform flex items-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
             </svg>
-            Download PDF Strategy
+            <span id="btn-text">Download PDF Strategy</span>
         </button>
     </div>
 
-    <div id="capture-area" class="max-w-6xl mx-auto">
+    <div id="capture-area">
         
         <!-- Header Section -->
-        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-6">
+        <header class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-6">
             <div>
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-xs font-bold tracking-widest uppercase">Joburg Hub Operations</span>
+                    <span class="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-[10px] font-bold tracking-widest uppercase">Joburg Hub Operations</span>
                 </div>
                 <h1 class="text-4xl font-extrabold tracking-tight">LCEA <span class="text-orange-600">Strategic Dashboard</span></h1>
-                <p class="text-slate-500 mt-1 font-medium italic">Prepared by: Kholofelo Tladi • Operations Powerhouse & ALX Insider</p>
+                <p class="text-slate-500 mt-1 text-sm font-medium italic">Prepared by: Kholofelo Tladi • Operations Powerhouse & ALX Insider</p>
             </div>
             <div class="flex items-center gap-4 bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
                 <div class="text-right">
@@ -94,45 +105,47 @@
         </header>
 
         <!-- Main Content Grid -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
             
             <!-- Left: Strategic Summary & Path -->
             <div class="lg:col-span-1 space-y-6">
                 <div class="glass-card p-6 bg-slate-900 text-white">
-                    <h3 class="text-sm font-black text-orange-500 uppercase tracking-widest mb-6">Activation Roadmap</h3>
-                    <div class="timeline-step">
-                        <p class="text-xs font-bold text-slate-400">PHASE 1</p>
-                        <p class="text-sm font-bold">The Welcome Blitz</p>
-                        <p class="text-[11px] text-slate-500 mt-1">WhatsApp “Ready/Help” triage within 48h. Community buy-in starts at Day 1.</p>
-                    </div>
-                    <div class="timeline-step">
-                        <p class="text-xs font-bold text-slate-400">PHASE 2</p>
-                        <p class="text-sm font-bold">Creative Sandbox</p>
-                        <p class="text-[11px] text-slate-500 mt-1">Friday Pitch-Offs & Peer Feedback loops. Peer-to-peer critique and rapid prototyping.</p>
-                    </div>
-                    <div class="timeline-step border-none pb-0">
-                        <p class="text-xs font-bold text-red-400">PHASE 3 (CRITICAL)</p>
-                        <p class="text-sm font-bold">Rescue Protocol</p>
-                        <p class="text-[11px] text-slate-500 mt-1">Stabilizing retention through Week 7 Labs. Direct intervention for lagging cohorts.</p>
+                    <h3 class="text-[10px] font-black text-orange-500 uppercase tracking-widest mb-4">Activation Roadmap</h3>
+                    <div class="space-y-4">
+                        <div class="timeline-step">
+                            <p class="text-[10px] font-bold text-slate-400">PHASE 1</p>
+                            <p class="text-sm font-bold leading-tight">The Welcome Blitz</p>
+                            <p class="text-[11px] text-slate-400 mt-1">WhatsApp triage within 48h.</p>
+                        </div>
+                        <div class="timeline-step">
+                            <p class="text-[10px] font-bold text-slate-400">PHASE 2</p>
+                            <p class="text-sm font-bold leading-tight">Creative Sandbox</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Friday Pitch-Offs & Loops.</p>
+                        </div>
+                        <div class="timeline-step border-none pb-0">
+                            <p class="text-[10px] font-bold text-slate-400">PHASE 3</p>
+                            <p class="text-sm font-bold leading-tight">Rescue Protocol</p>
+                            <p class="text-[11px] text-slate-400 mt-1">Stabilizing Week 7 Labs.</p>
+                        </div>
                     </div>
                 </div>
 
-                <div class="glass-card p-6 border-t-4 border-t-orange-500">
+                <div class="glass-card p-5 border-t-4 border-t-orange-500">
                     <p class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-2">Joburg Hub Focus</p>
-                    <h4 class="text-lg font-bold mb-3 italic">“Community-First”</h4>
-                    <p class="text-xs text-slate-600 leading-relaxed">
-                        Leveraging local Hub attendance to bridge the digital gap. Moving from passive consumption to <strong>Learner Ownership</strong> by turning the Hub from a workspace into a high-performance incubator.
+                    <h4 class="text-md font-bold mb-2 italic">"Community-First"</h4>
+                    <p class="text-[11px] text-slate-600 leading-relaxed">
+                        Leveraging Hub attendance to bridge the digital gap. Moving from passive consumption to <strong>Learner Ownership.</strong>
                     </p>
                 </div>
             </div>
 
             <!-- Middle: Main Analytics -->
-            <div class="lg:col-span-2 space-y-8">
+            <div class="lg:col-span-2 space-y-6">
                 <div class="glass-card p-6">
-                    <div class="flex justify-between items-center mb-6">
+                    <div class="flex justify-between items-center mb-4">
                         <div>
-                            <h3 class="text-xl font-bold">The Engagement Gap</h3>
-                            <p class="text-xs text-slate-400">Visualizing the Week 3 “Friction Wall”</p>
+                            <h3 class="text-lg font-bold">The Engagement Gap</h3>
+                            <p class="text-[10px] text-slate-400 uppercase tracking-tight font-bold">Week 3 "Friction Wall" Analysis</p>
                         </div>
                         <div class="flex gap-4">
                             <div class="flex items-center gap-2 text-[10px] font-bold text-slate-500">
@@ -143,87 +156,118 @@
                             </div>
                         </div>
                     </div>
-                    <div class="h-64 w-full">
+                    <div class="h-48 w-full">
                         <canvas id="engagementChart"></canvas>
                     </div>
-                    <div class="mt-6 p-4 bg-orange-50 rounded-xl border border-orange-100 flex gap-4">
-                        <div class="text-2xl">💡</div>
-                        <p class="text-xs text-orange-800 leading-relaxed">
+                    <div class="mt-4 p-4 bg-orange-50 rounded-xl border border-orange-100 flex items-center gap-3">
+                        <div class="text-xl">💡</div>
+                        <p class="text-[11px] text-orange-800 leading-tight">
                             <strong>Critical Insight:</strong> Week 6 reveals a 20% gap. Attendance is high, but assignment anxiety is higher. My <strong>Rescue Week</strong> protocol specifically targets this inertia.
                         </p>
                     </div>
                 </div>
 
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="glass-card p-5 border-l-4 border-l-slate-800">
-                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Engagement activity</p>
-                        <p class="font-bold text-sm">The “Creator Pitch-Off”</p>
-                        <p class="text-[11px] text-slate-500 mt-1">Friday evening peer-review sessions to build professional confidence.</p>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="glass-card p-4 border-l-4 border-l-slate-800">
+                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Engagement activity</p>
+                        <p class="font-bold text-xs">The "Creator Pitch-Off"</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Friday evening peer-review sessions to build professional confidence.</p>
                     </div>
-                    <div class="glass-card p-5 border-l-4 border-l-green-500">
-                        <p class="text-[10px] font-black text-slate-400 uppercase mb-2">Technical activity</p>
-                        <p class="font-bold text-sm">“Portfolio to Profit”</p>
-                        <p class="text-[11px] text-slate-500 mt-1">Masterclasses with local pros to show the ROI of completion.</p>
+                    <div class="glass-card p-4 border-l-4 border-l-green-500">
+                        <p class="text-[9px] font-black text-slate-400 uppercase mb-1">Technical activity</p>
+                        <p class="font-bold text-xs">"Portfolio to Profit"</p>
+                        <p class="text-[10px] text-slate-500 mt-1">Masterclasses with local pros to show the ROI of completion.</p>
                     </div>
                 </div>
             </div>
 
             <!-- Right: Action & Success -->
             <div class="lg:col-span-1 space-y-6">
-                <div class="glass-card p-6 border-2 border-orange-500 shadow-orange-100">
-                    <h3 class="text-sm font-black alx-orange uppercase tracking-widest mb-4">Risk Mitigation</h3>
+                <div class="glass-card p-5 border-2 border-orange-500 shadow-orange-100/50">
+                    <h3 class="text-[10px] font-black text-orange-600 uppercase tracking-widest mb-4">Risk Mitigation</h3>
                     <div class="space-y-4">
                         <div class="flex items-start gap-3">
-                            <div class="text-red-500">⚠️</div>
+                            <div class="text-red-500 text-sm">⚠️</div>
                             <div>
-                                <p class="text-xs font-bold uppercase">Backlog Risk</p>
-                                <p class="text-[10px] text-slate-500">85% risk of drop-off in Week 7.</p>
+                                <p class="text-[10px] font-bold uppercase">Backlog Risk</p>
+                                <p class="text-[10px] text-slate-500 font-medium">85% drop-off in Week 7.</p> <strong>Action:</strong> Rapid Sprint Hours.</p>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
-                            <div class="text-orange-500">📉</div>
+                            <div class="text-orange-500 text-sm">📉</div>
                             <div>
-                                <p class="text-xs font-bold uppercase">Mentorship Decay</p>
-                                <p class="text-[10px] text-slate-500">Attendance dropped to 25%.</p>
+                                <p class="text-[10px] font-bold uppercase">Mentorship Decay</p>
+                                <p class="text-[10px] text-slate-500 font-medium">Attendance dropped to 25%.</p> <strong>Action:</strong> Gamified Leaderboards.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <div class="text-sm">💬</div>
+                            <div>
+                                <p class="text-[10px] font-bold uppercase">Silencing Bias</p>
+                                <p class="text-[9px] text-slate-500">Learners stop asking for help. <strong>Action:</strong> Anonymous "SOS" Form.</p>
                             </div>
                         </div>
                     </div>
-                    <div class="mt-6 pt-4 border-t border-slate-100">
-                        <p class="text-[10px] text-slate-400 italic font-medium uppercase tracking-tighter">Intervention: Live Labs Pivot</p>
+                    <div class="mt-4 pt-4 border-t border-slate-100">
+                        <p class="text-[9px] text-slate-400 italic font-bold uppercase tracking-tight">Intervention: Live Labs Pivot</p>
                     </div>
                 </div>
 
-                <div class="glass-card p-6 bg-green-600 text-white shadow-lg shadow-green-100">
-                    <p class="text-[10px] font-black uppercase mb-2 opacity-80 tracking-widest">Expected Outcome</p>
-                    <p class="text-3xl font-black italic">+10%</p>
-                    <p class="text-xs mt-2 font-medium">Completion Stabilization by Week 8 via Rescue Week labs.</p>
-                    <div class="mt-4 flex items-center gap-1">
-                        <div class="h-1 flex-1 bg-white/20 rounded-full"><div class="h-1 bg-white rounded-full w-[65%]"></div></div>
-                        <span class="text-[10px] font-bold">W8 Target</span>
+                <div class="glass-card p-5 bg-green-600 text-white shadow-lg shadow-green-200">
+                    <p class="text-[10px] font-black uppercase mb-1 opacity-80 tracking-widest">Expected Outcome</p>
+                    <p class="text-4xl font-black italic">+10%</p>
+                    <p class="text-[10px] mt-2 font-medium opacity-90">Completion Stabilization by Week 8 via Rescue Week.</p>
+                    <div class="mt-4 flex items-center gap-2">
+                        <div class="h-1.5 flex-1 bg-white/20 rounded-full">
+                            <div class="h-1.5 bg-white rounded-full w-[65%] shadow-sm"></div>
+                        </div>
+                        <span class="text-[9px] font-black uppercase">W8 Target</span>
                     </div>
                 </div>
             </div>
 
         </div>
 
-        <footer class="mt-12 text-center text-slate-400 text-[10px] font-bold uppercase tracking-widest border-t pt-8">
-            ALX Johannesburg Hub Strategy • Learning Community Experience Associate (LCEA) 2026
-            <span class="mt-3 block text-slate-500">© 2026 Kholofelo Tladi • FabrikqeAI</span>
+        <footer class="mt-8 text-center text-slate-400 text-[9px] font-bold uppercase tracking-[0.2em] border-t border-slate-100 pt-6">
+            ALX Johannesburg Hub Strategy • Learning Community Experience Associate (LCEA) 2026 •  © 2026 Kholofelo Tladi
         </footer>
 
     </div>
 
     <script>
         function downloadPDF() {
+            const btnText = document.getElementById('btn-text');
+            const originalText = btnText.innerText;
+            btnText.innerText = "Generating PDF...";
+            
             const element = document.getElementById('capture-area');
+            
+            // Optimal settings for A4 Landscape fit
             const opt = {
-                margin: 0.5,
-                filename: 'KholofeloTladi_ALX_LCEA_Strategy_Dashboard.pdf',
+                margin: 0,
+                filename: 'ALX_LCEA_Strategy_Dashboard.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'landscape' }
+                html2canvas: { 
+                    scale: 3, 
+                    useCORS: true,
+                    letterRendering: true,
+                    scrollY: 0,
+                    scrollX: 0
+                },
+                jsPDF: { 
+                    unit: 'in', 
+                    format: 'a4', 
+                    orientation: 'landscape',
+                    compress: true
+                }
             };
-            html2pdf().set(opt).from(element).save();
+
+            // Force scroll to top before capture to avoid top gap
+            window.scrollTo(0,0);
+
+            html2pdf().set(opt).from(element).save().then(() => {
+                btnText.innerText = originalText;
+            });
         }
 
         window.onload = function() {
@@ -270,12 +314,12 @@
                         y: {
                             beginAtZero: true,
                             max: 100,
-                            grid: { color: '#f1f5f9' },
-                            ticks: { font: { size: 10, weight: '600' }, callback: v => v + '%' }
+                            grid: { color: '#f8fafc' },
+                            ticks: { font: { size: 9, weight: '700' }, callback: v => v + '%' }
                         },
                         x: {
                             grid: { display: false },
-                            ticks: { font: { size: 10, weight: '700' } }
+                            ticks: { font: { size: 9, weight: '800' } }
                         }
                     }
                 }
